@@ -17,6 +17,7 @@
 ##基本アーキテクチャ
 
 ## DI
+
 * [JSR-330](https://docs.google.com/View?id=djppsvp_31hmdxfpgb&pli=1)スタイル　(Google Guice)
 * Aura.Diをfork
 * アノテーションによるインスタンス管理定義を加える(@PostConstruct, @PreDestroy等)
