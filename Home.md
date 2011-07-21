@@ -4,14 +4,19 @@
 
 ## 基本
 * なるべくself-contained / なるべくライブラリ指向
-* スタティックコール、無原則なsetter/getter、over engineering、にsay no
 * 機能数よりも柔軟性の保持
-* 共通ベースクラス(BEAR_Base)を持たない
+* スタティックコール、無原則なsetter/getterは控える
+* off the beaten truck driveability (not only on the rail.)
+* Be Clean (SRP,SoC,LoD,OCP,Tell don't ask,継承より合成,ボーイスカウトルール, information hiding...)
+* no over engineering
+
+## 実践
+* 共通ベースクラスを持たない
 * ユニファイドコンストラクタ以外（ただ１つのarray引数）のコンストラクタも可能に
 * DTOと振る舞いを持つ一般オブジェクトの明確な区別
-* DTOはpublicプロパティを持つ (デメテルの法則を避ける意味ももつ)
-* ハリウッド原則
-* [デメテルの法則](http://ja.wikipedia.org/wiki/%E3%83%87%E3%83%A1%E3%83%86%E3%83%AB%E3%81%AE%E6%B3%95%E5%89%87)
+* DTOはpublicプロパティを持つ (LoD違反を避ける意味ももつ)
+* DSLを好む 
+* 標準と簡素を好む
 
 ##基本アーキテクチャ
 
