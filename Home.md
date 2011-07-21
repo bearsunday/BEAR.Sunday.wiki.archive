@@ -6,9 +6,7 @@
 * なるべくself-contained / なるべくライブラリ指向
 * スタティックコール、無原則なsetter/getter、over engineering、にsay no
 * 機能数よりも柔軟性の保持
-
-##ソフトウエア設計
-* Satudayと違って共通ベースクラス(BEAR_Base)を持たない
+* 共通ベースクラス(BEAR_Base)を持たない
 * ユニファイドコンストラクタ以外（ただ１つのarray引数）のコンストラクタも可能に
 * DTOと振る舞いを持つ一般オブジェクトの明確な区別
 * DTOはpublicプロパティを持つ (デメテルの法則を避ける意味ももつ)
@@ -19,13 +17,12 @@
 
 ## DI
 
-* [JSR-330](https://docs.google.com/View?id=djppsvp_31hmdxfpgb&pli=1)スタイル　(Google Guice)
+* [JSR-330](https://docs.google.com/View?id=djppsvp_31hmdxfpgb&pli=1)スタイルの@InjectアノテーションによるDI
+* サービスロケータとサービスプロバイダ
 * Aura.Diをfork
 * アノテーションによるインスタンス管理定義を加える(@PostConstruct, @PreDestroy等)
 * namedパラメーターによるコンストラクト引数 (Aura.Di)
 * クラス継承に伴うコンストラクタ引数、インスタンス管理定義の継承
-* @Injectアノテーションによるインジェクト
-* サービスオブジェクトプロバイダ
 
 ## アノテーション
 * リソース以外にも原則どのクラス、メソッドにもアノテーション可能に
