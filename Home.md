@@ -1,10 +1,11 @@
 ## BEAR.Sunday デザインメモ
 
-##キーコンセプト
-* Intuitiveness 直感性
-* Drivability　操縦性
-* Separation of concern 関心の分離
-* Minimalism 禅
+##Theme
+* Everything is a resource.
+* +Agility +Quality with ROA
+
+##Key Concept
+* Saturdayを受け継ぐ * Intuitiveness 直感性 * Drivability　操縦性 * Separation of concern 関心の分離 * Minimalism 禅
 
 ## 基本・方針
 * オーバーエンジニアリングの否定
