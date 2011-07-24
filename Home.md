@@ -2,7 +2,7 @@
 
 ##Theme
 * Everything is a resource.
-* +Agility +Quality with ROA
+* +Agility+Quality with ROA
 
 ##Key Concept
 * Saturdayを受け継ぐ * Intuitiveness 直感性 * Drivability　操縦性 * Separation of concern 関心の分離 * Minimalism 禅
