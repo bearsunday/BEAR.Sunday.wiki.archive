@@ -1,22 +1,36 @@
 ## BEAR.Sunday デザインメモ
 
-##原則
+##キーコンセプト
+* Intuitiveness 直感性
+* Drivability　操縦性
+* Separation of concern 関心の分離
+* Minimalism 禅
 
-## 基本
-* なるべくself-contained / なるべくライブラリ指向
+## 基本・方針
+* オーバーエンジニアリングの否定
 * 機能数よりも柔軟性の保持
-* スタティックコール、無原則なsetter/getterは控える
-* off the beaten truck driveability (not only on the rail.)
+* only on the railでないときの操縦性の確保
 * Be Clean (SRP,SoC,LoD,OCP,Tell don't ask,継承より合成,ボーイスカウトルール, information hiding...)
-* no over engineering
+* スタティックコールは控える
+* 無原則なsetter/getterは控える、値のカプセル化ではなくてデータ構造をカプセル化する。
+* 標準を好む
+* 簡素を好む
+* DSLを好む 
+* 最新最良より定番安定を好む。しかし邪魔をしない
+* プラッガブルコンポーネント 
+* (self-contained library)
 
 ## 実践
 * 共通ベースクラスを持たない
-* ユニファイドコンストラクタ以外（ただ１つのarray引数）のコンストラクタも可能に
-* DTOと振る舞いを持つ一般オブジェクトの明確な区別
+* 共通ベース例外を用意しない
+* 共通ファクトリー(DI)
+* 基本POPO
+* ユニファイドコンストラクタ以外のコンストラクタも可能に
+* DTOとオブジェクトの明確な区別
 * DTOはpublicプロパティを持つ (LoD違反を避ける意味ももつ)
-* DSLを好む 
-* 標準と簡素を好む
+* コンストラクトをアプリケーションキャッシュ可能に
+* PEAR使用
+* PEARパッケージ
 
 ##基本アーキテクチャ
 
@@ -92,17 +106,18 @@
 * 原則的にコンストラクトはアプリケーションを通じて共通にし依存オブジェクトを内包したものをserizlize/unserializeしてnewを使わない
 * CQRSで原則クエリーはキャッシュを読むのみ
 
-
 ### 規約・規則
 * コーディング規約はPEAR/Zendを踏襲。ただしprivate/protectedでアンダースコアはprefixしない。
 * ファイル配置や命名規則はzf2準拠
 
 ## 採用ライブラリ
+* PEAR
 * Aura.Di, Aura.*
 * Doctorine DBAL
 * Smarty3
 * Orbited / WebSocket
 * zf2/*
+* zf1/*
 
 ## PHP5.3+ / 5.4+
 * アプリケーションnamespaceでローカルサービス以外のリソースのリクエスト
