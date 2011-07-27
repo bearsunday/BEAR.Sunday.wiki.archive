@@ -4,6 +4,16 @@
 * Everything is a resource.
 * +agility +quality with ROA
 
+## Function / Goal
+* マルチアプリリソースの使用　(namespace)
+* マルチUAの最適化
+* push / pull 双方向のリソース、制御の反転。
+* pjaxサポート
+* CQRSによるデータソースの分離、時間ではなくメソッドトリガーのCache機構
+* orbited / websocket サポート。model/viewの変化が即view/modelに反映される真MVC
+* framework as CMS
+* modern clean code
+
 ##Key Concept
 * Intuitiveness 直感性
 * Drivability　操縦性
@@ -12,26 +22,30 @@
 
 ## 基本・方針
 * ×オーバーエンジニアリング
-* 機能数よりも柔軟性の保持
-* only on the railでないときの操縦性の確保
+* コンポーネントの接続に注目
 * Clean PHP Code (SRP,SoC,LoD,OCP,Tell don't ask,継承より合成,ボーイスカウトルール, information hiding...)
-* 標準を好む
+* 最新最良より定番で広く使われてる標準技術を好む。しかし邪魔はしない。
 * 簡素を好む
 * DSLを好む 
-* 最新最良より定番で広く使われてる技術を好む。しかし邪魔をしない。
 * プラッガブルコンポーネント 
+* 低学習コスト
+* 高い応用性
+* ロングタームサポート
 * (self-contained library)
+* (not only on the rail, but also off the beaten track)
 
 ## 実践
 * スタティックコールの抑制
-* 無原則なsetter/getterの抑制（値のカプセル化ではなくてデータ構造をカプセル化する）
+* setter/getterの抑制（値ではなくてデータ構造を隠蔽する）
 * 共通ベースクラスを持たない
 * 共通ベース例外を用意しない
+* 汎用(SPL)例外使用(zf2/aura)
 * 共通ファクトリー(DI)を持つ
 * POPO
 * ユニファイドコンストラクタ以外のコンストラクタも可能に
 * DTOとオブジェクトの明確な区別
 * DTOはpublicプロパティを持つ (LoD違反を避ける意味ももつ)
+* PHP5.2用BEARとの混在（リソースの独立性）
 * コンストラクトをアプリケーションキャッシュ可能に
 * PEAR/zf/zf2使用
 * PEARパッケージ
@@ -143,14 +157,22 @@
 * アプリケーションnamespaceでローカルサービス以外のリソースのリクエスト
 * リソースtrait
 
-## 開発
-* TDD / Jenkins
-* GitHub
+##エラー
 * エラーのダウンロード
 * エラー記録のDB化
 * エラーの共有
-* エラーの追跡可能性
+* エラーの追跡可能性向上
+
+## 開発
+* TDD / GitHub / Jenkins
+* Resource Driven Development (RDD)
 * リソースのデータグリッド表示
 * リソースURIルーターによるモックリソース
 * aceエディター更なる活用
 * 編集可能gridリソース
+* 専用phpcs ruleset (BEAR/ruleset.xml)
+
+## Challenge / Dream
+* プログラマレスプロジェクトの可能性
+* オープンリソースリポジトリ (Resource API)
+* エラーのソーシャライズ
