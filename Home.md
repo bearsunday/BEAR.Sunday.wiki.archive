@@ -9,7 +9,7 @@
 * マルチUAの最適化
 * push / pull 双方向のリソース、制御の反転。
 * pjaxサポート
-* CQRSによるデータソースの分離、時間ではなくメソッドトリガーのCache機構
+* CQRSによるデータソースの分離。時間ではなくメソッドトリガーのCache機構
 * orbited / websocket サポート。model/viewの変化が即view/modelに反映される真MVC
 * framework as CMS
 * modern clean code
