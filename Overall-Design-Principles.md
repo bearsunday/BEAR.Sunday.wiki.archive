@@ -1,6 +1,3 @@
-## BEAR.Sunday デザインメモ
-BEAR.SundayはPHP5.4専用Webアプリケーションフレームワークです。
-
 ## Concept
 
 ### BEAR Key Concept
