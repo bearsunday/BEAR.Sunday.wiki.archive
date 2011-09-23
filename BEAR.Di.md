@@ -2,14 +2,19 @@ status[編集中]
 
 # Overview
 
-BEAR.DiはAura.Diをベースに、ライフサイクルの管理やJSR-330の@Injectアノテーションの一部機能を付加したものです。依存性の注入を伴うオブジェクトの生成と管理を行います。
+BEAR.DiはGuiceにインスパイアされたDiフレームワークです。実装はAura.Diをベースに、ライフサイクルの管理やJSR-330の@Injectアノテーションの一部機能を付加し依存性の注入を伴うオブジェクトの生成と管理を行います。インジェクションのバインディングはGuiceと同じように設定ファイルではなくアノテーションを使ったコードで行います。
 
 ## Motivation
 
-PHP5.2+のフレームワークではごく一部のフレームワークがDIを採用するのみでしたが、PHP5.3+系のフレームワークではメジャーなほぼ全てがDI、あるいはDI技術が解決しようとする依存性の問題に対しての取り組みがあります。BEAR.Diは利用コスト低減のため、Guice/Springが採用してるJSR-330のアノテーションによるインジェクトが利用できるように既存のDIライブラリを拡張します。
+###何故PHPにDIか
+
+PHP5.2+のフレームワークではごく一部のフレームワークがDIを採用するのみでしたが、PHP5.3+系のフレームワークではメジャーなほぼ全てがDI、あるいはDI技術が解決しようとする依存性の問題に対しての取り組みがあります。プログラムに柔軟性とメンテナンス性を与え、テストを容易にする技術として普及しつつあると考えます。
 
 ### Saturdayでは
-Saturdayでは変更可能な初期化メソッドを(=インジェクター)から依存オブジェクトをDependecy Pullすることとサービスロケータを使用することで利用オブジェクトとの生成（装クラス、インジェクター、コンストラクタパラメータ）をコントロールしていました。理解も利用もしやすいものですが、一方、コンストラクタのパラメータを継承できない。利用コードがコンテナクラスを直接利用している。パラメータのレイジーロードが出来ない。などの問題がありました。
+Saturdayでは変更可能な初期化メソッドを(=インジェクター)から依存オブジェクトをDependecy Pullすることとサービスロケータを使用することで利用オブジェクトとの生成（装クラス、インジェクター、コンストラクタパラメータ）をコントロールしていました。理解も利用もしやすいものですが、一方、１）コンストラクタのパラメータを継承できない。２）利用コードがコンテナクラスを直接利用している。３）パラメータのレイジーロードが出来ない、４）レジストリ（コンテナ）はグローバルで異なるアプリケーションのサービスが共用できないなどの問題がありました。
+
+### 課題
+設定より記述、複雑で全てを一律的に網羅する設計より、簡素で比較的大くをでカバーできるアプローチがPHPらしく良いのではないかと考えます。
 
 ## Aura.Di
 
@@ -17,16 +22,19 @@ Saturdayでは変更可能な初期化メソッドを(=インジェクター)か
 
 ## Function
 ###Aura.Diの機能
-コンストラクタインジェクション、セッターインジェクション、ネームドパラメータ、継承が有効なコンストラクタパラメータ指定などです。
+コンストラクタインジェクション、セッターインジェクション、継承が有効なコンストラクタのネームドパラメータ指定などです。ネームドパラメータは引き数を順序でなく変数名で指定します。デフォルトの値を持ち、上書きするパラメータだけを指定することができます。
 
 ###BEAR.Diでの付加機能
 アノテーション
-@PostConstruct コンストラクタの後に実行される初期化メソッド。一つのみ存在可。(JSR-250)
-@PreDestory デストラクタの前に実行される終了メソッド。一つのみ存在可。(JSR-250)
-@Prototype("singleton") prototype, singleton, session、application などをライフサイクルを指定
-@Inject 依存性を注入しなくてはならないポイントを特定
-@Named パラメータインジェクト指定
-@Provide インジェクトプロバイダー
+
+* @PostConstruct コンストラクタの後に実行される初期化メソッド。一つのみ存在可。(JSR-250)
+* @PreDestory デストラクタの前に実行される終了メソッド。一つのみ存在可。(JSR-250)
+* @Prototype("singleton") prototype, singleton, session、application などをライフサイクルを指定
+* @Inject 依存性を注入しなくてはならないポイントを特定
+* @Named 特定の実装を指定するバインディングアノテーション
+* @Provide 依存オブジェクトプロバイダー
+
+他にはキャッシュ機能。
 
 ## Sample
 
@@ -119,28 +127,137 @@ Factory
 
 #### 注入コード
 
+A案 Guiceスタイル。インターフェイスと実装クラスをバインドするモジュールをAbstractModuleクラスを継承して作成します。
+
+    // Linked Binding
+    // インターフェイス/抽象クラスを具象クラスにバインドします
+    // ex) TransactionLogInterfaceインターフェイスをDatabaseTransactionLog実装クラスにバインドします
+    class BillingModule extends AbstractModule {
+        protected function configure() {
+            $this->bind('TransactionLogInterface')->to('DatabaseTransactionLog');
+        }
+    }
+    // Binding annotation
+    // 同じインターフェイスで違うクラスにバインドする時に名前を付けます
+    // ex) TransactionLogInterfaceインターフェイスのうち@Named('Db')アノテーションがついているものをDatabaseTransactionLog実装クラスに
+    class BillingModule extends AbstractModule {
+        protected function configure() {
+            $this->bind('TransactionLogInterface')->annotatedWith('Db')->to('DatabaseTransactionLog');
+        }
+    }
+    // Instance Bindings
+    // TransactionLogInterfaceインターエフィスに生成したインスタンスをバインドします。
+    // ex )TransactionLogInterfaceインターフェイスにDatabaseTransactionLogクラスインスタンスをバインド
+    class BillingModule extends AbstractModule {
+        protected function configure() {
+            $instance = new DatabaseTransactionLog;
+            $this->bind('TransactionLogInterface')->annotatedWith('Db')->toInantance($instance);
+        }
+    }
+    
+    //@Provides Methods
+    // オブジェクトの生成にコードが必要なときに@Injectを使います。このメソッドはモジュール内で定義して@Providesアノテーションをつけ、必要な型のインスタンスを返します。
+    class BillingModule extends AbstractModule {
+        protected function configure() {
+        }
+    
+        /**
+         * @Provide
+         */
+        protected function provideTransactionLog()
+        {
+            $transactionLog = $this->di->newInstance('TransactionLog');
+            return $transactionLog;
+        }
+    }
+    
+    // @Providesメソッドが複雑になってきたら、Provider専用クラスを持つことを検討します。ProviderクラスではProviderインターフェイスを実装しインスタンスを返します。
+    
+    /**
+     * Provider interface
+     */
+    interface provider
+    {
+        public function get();
+    }
+    
+    /**
+     * DatabaseTransactionLogオブジェクトをprovideするクラス
+     */
+    class DatabaseTransactionLogProvider implements provider
+    {
+        /**
+         * @Inject
+         */
+        public function __construct(Di $di, Connection $connection)
+        {
+            $this->di = $di;
+            $this->connection = $connection;
+        }
+    
+        public function get()
+        {
+            $transactionLog = $this->di->newInstance('DatabaseTransactionLog');
+            $transactionLog->setConnection($this->connection);
+            return $transactionLog;
+        }
+    }
+    
+    // Provider Bindings
+    // toProviderメソッドでバインドします。
+    class BillingModule extends AbstractModule {
+        protected function configure() {
+            $this->bind('TransactionLogInterface')->toProvider('DatabaseTransactionLogProvider');
+        }
+    }
+    
+    // Just-in-time Bindings
+    
+    // インターフェイスのアノテーションで特定実装クラスを指定します。
+    // ex) CreditCardProcessorインターフェイスをCreditCardクラスにバインドします
+    /**
+     * @ImplementedBy("PayPalCreditCardProcessor")
+     */
+    interface CreditCardProcessor {
+        public function charge(CreditCard $creditCard);
+    }
+    
+    // インターフェイスのアノテーションでProviderクラスを指定します。
+    /**
+     *  @ProvidedBy("DatabaseTransactionLogProvider")
+     */
+    interface TransactionLog {
+      public function logConnectException(UnreachableException $e);
+      public function logChargeResult(ChargeResult $result);
+    }
+
+    // Scopeの指定
+    bind('TransactionLog').to('InMemoryTransactionLog').in('Singleton');
+
+B案　Diクラスにbindメソッドを持たせる方法。Moduleクラス不使用。
+
 	$di = new Manager(new Forge(new Config));
-	$di->newInsntance('Mock');
 
-	// Type hint injection
-	$di->bindHint('Sample\Model\Db')->to('Test\Db');
-	$di->bindHint('Sample\Model\Db')->in("Smple\Di\Model")->to('Test\Db');
+	// Linked Binding
+	$di->bind('Sample\Db')->to('Test\Db');
+	$di->bind('Sample\Db')->in("Smple\Di\Model")->to('Test\Db');
 
-	// Type hint injection with @Name
-	$di->bindHint('Sample\Model\Db')->named('Test\Db')->to('Test\User\Db');
+	// Binding annotation
+	$di->bind('Sample\Db')->annotatedWith('Test\Db')->to('Test\User\Db');
 
-	// Inject with instance
-	$di->bindHint('Sample\Model\Db')->named('Test\Db')->toInstance('HelloWorld');
-	$di->bindHint('Sample\Model\Db')->named('Test\Db')->toInstance(10);
+	// Instance Bindings
+	$di->bind('Sample\Db')->annotatedWith('Test\Db')->toInstance('HelloWorld');
+	$di->bind('Sample\Db')->annotatedWith('Test\Db')->toInstance(10);
 
-	// Inject with service provider
-	$provide = function ($di){
-		return new Test\Db();
+	// Provider Bindings
+	$provideDb = function (Di $di){
+		return $di->newInstance('Test\Db');
 	}
-	// Named param injection
-	$di->bindParamName('db')->in("Smple\Di\Model", "SetDb")->to('Test\Db');
+	$di->bind('Sample\Db')->toProvider($provideDb);
 
 ### 課題
+
+1. A案かB案か。A案 pros:各モジュールは別クラスで独立性がある、Guiceのコードがサンプルになる cons:やや煩雑。Aura.Diからは遠ざかる。　B案 pros:Aura.Diの延長で使える。記述がシンプル cons:定義がグローバル。
 
 1. @Injectでバインド無指定の場合挙動をどうするか - 解決案：クラスヒントを実装クラスかインターフェイスか抽象クラスか判断。実装クラスならそのクラスを生成、その他ならパスから実装クラスを類推してそのクラスを生成する。または、そのタイプヒントをサービスキーとしてコンテナから取り出す。[疑問]
 1. アノテーションでインジェクトするサービス名やクラス名を指定する方法はなくても良いか - 解決案：例えばサービスを指定するときにSpringがするように@Injectではなく@Resourceにするのは現在のコンパクトな仕様から不必要にアノテーションを増やすような気がする。@Namedのように補助的に@Serviceという名前をつけるか、またはサポートしないか。
