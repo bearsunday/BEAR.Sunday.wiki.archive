@@ -76,6 +76,9 @@ Factory
 ### BEAR.Diサンプル案
 
 #### 対象クラスのアノテーション例
+
+*  @Injectでインジェクトが必要なメソッドやプロパティをアノテートします。
+
 	class MockDefinitionClass
 	{
 	    /**
@@ -122,8 +125,7 @@ Factory
 	    public function setDouble(User $user, Db $db)
 	    {
 	    }
- @Injectでアノテートされたメソッドがsetterインジェクションになります。
- @Namedアノテーションはタイプヒントだけで決定されないサービスに対して指定をします。(Guice)
+
 
 #### 注入コード
 
