@@ -18,7 +18,7 @@ Saturdayでは変更可能な初期化メソッドを(=インジェクター)か
 
 ## Aura.Di
 
-ベースとするDIの比較検討したのはzf2-DiとAura.Diです。その中でAura.Diはよりコンパクトでベースに使いやすいのではないかと考えました。Aura.Diをそのまま採用していのはアノテーションによるDIととライフサイクルの機能を入れたいためです。
+ベースとするDIの比較検討したのはzf2-DiとAura.Diです。その中でAura.Diはよりコンパクトでベースに使いやすいのではないかと考えました。Aura.Diをそのまま採用していのはアノテーションによるDIととライフサイクルの機能を入れたいためです。PHPでアノテーションによるDi
 
 ## Function
 ###Aura.Diの機能
@@ -79,8 +79,8 @@ Factory
 
 *  @Injectでインジェクトが必要なメソッドやプロパティをアノテートします。
 
-	class MockDefinitionClass
-	{
+    	class MockDefinitionClass
+    	{
 	    /**
 	     * @PostConstruct
 	     */
