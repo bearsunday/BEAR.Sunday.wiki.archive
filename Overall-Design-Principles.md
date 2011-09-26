@@ -51,7 +51,7 @@
 * 共通ベースクラスを持たない。
 * 共通ベース例外を用意しない。SPL例外や継承した例外を好む。
 * メソッドの引数は少なく。基本は4つ以下。
-* タイプヒンティングは実クラスではなく、インテーフェイスか抽象クラスを用いる。
+* タイプヒンティングは実クラスではなく、インターフェイスか抽象クラスを用いる。
 * setter/getterの抑制（値ではなくてデータ構造を隠蔽する）
 * 構造を持つスカラーデータのセットはDTOクラスにまとめる((int)x, (int)y => class Position{public $x; public $y})
 * DTOとオブジェクトの明確な区別
@@ -74,11 +74,11 @@
 
 ### DI
 
-* [JSR-330](https://docs.google.com/View?id=djppsvp_31hmdxfpgb&pli=1)スタイルの@InjectアノテーションによるDI
+* Guiceインスパイア。[Aura.Di](http://auraphp.github.com/Aura.Di/)をfork
+* [JSR-330](https://docs.google.com/View?id=djppsvp_31hmdxfpgb&pli=1)(Guice)スタイルの@InjectアノテーションによるDI
 * プロパティ/セッター/コンストラクトインジェクション
 * サービスロケータとサービスプロバイダ
 * タイプヒンティングインジェクション / ネームインジェクション
-* Aura.Diをfork
 * namedパラメーターによるコンストラクト引数 (Aura.Di)
 * 遅延引数 (Aura.Di)
 * クラス継承に伴うコンストラクタ引数、インスタンス管理定義の継承
@@ -95,10 +95,10 @@
 
 ### リソース(ROA)
 
-* リソース(M)、ビュー(V)、ページ(C)すべてをリソースにし、ro, view, pageのURIスキーマを与える
-* リソースはcode, header, bodyの他にdocument(or representation?)=表現のプロパティを保持する
+* 従来のリソース(M)だけでなくビュー(V)、ページ(C)もリソースにし、view, pageのURIスキーマを与える
+* ROA４つの原則 URI, 統一インターフェイス, ステートレス, (リンク)、これを満たしてリソースにする。VもCも可能。
 * リソースパラメータはuri, values, optionsをpublicプロパティに持つDTOに
-* Pullリソース（制御の反転）
+* Pullリソース（制御の反転）。不足情報は制御を反転して尋ねられる (例ユーザーIDが分からないユーザーページviewが、ページ、リソースの順に尋ねる）
 * リソースパラメータプロバイダ
 * パラメータはリクエストメソッドを持つ
 * リソースが被リクエスト処理を行わない。リクエストアダプターに依頼する。
@@ -115,6 +115,8 @@
 * リソースルーター
 * URIテンプレート
 * Hypertext-driven REST API
+
+* リソースはcode, header, bodyの他にdocument(or representation?)=表現のプロパティを保持する(?=viewリソースとコンフリクト)
 
 ### ページリソース
 * onInitの代わりにonRead
@@ -192,13 +194,14 @@
 * 編集可能gridリソース
 * 専用phpcs ruleset (BEAR/ruleset.xml)
 
-## Challenge / Dream / Possibility
+## Challenge / Dream / Possibility / Consideration
 * プログラマレスプロジェクトの可能性
 * オープンリソースリポジトリ (Resource API)
 * エラーのソーシャライズ
 * リソースのリモートAPI公開
 * スキーマ・オープンマーケット
 * CMSのプラグイン利用
+* MVC JSフレームワーク Backbone.jsやangular.jsとの連携
 
 ###エラー
 * エラーのダウンロード
