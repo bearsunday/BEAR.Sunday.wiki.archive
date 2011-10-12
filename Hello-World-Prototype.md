@@ -108,7 +108,7 @@ onGet内ではアプリケーションリソースのURIを指定したリクエ
 ビューもリソースとして扱います。例えば以下のテンプレート、
 
 	<html>
-	<head>Hello World</head>
+	<head><title>Hello World</title></head>
 	<body>
 	{$greeting}
 	</body>
@@ -120,7 +120,7 @@ onGet内ではアプリケーションリソースのURIを指定したリクエ
     {
         return "
 	<html>
-	<head>Hello World</head>
+	<head><title>Hello World</title></head>
 	<body>
 	{$greeting}
 	</body>
@@ -155,7 +155,7 @@ onGet内ではアプリケーションリソースのURIを指定したリクエ
 こういうbodyをもったリソースオブジェクトが得られるはずです。
 
     <html>
-      <head>Hello World</head>
+      <head><title>Hello World</title></head>
       <body>
         こんにちは
       </body>
