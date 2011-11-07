@@ -6,7 +6,13 @@ BEAR.Resourceはモデルやコントローラー、ビュー等対象をリソ�
 クライアント側
 
     $user = $resource->newInstance('app://self/User');
-    $resource->get($user, ['id' => $id])->set('user')->in(SET::LAZY);
+    $resource->get->object($user)->withQuery(['id' => $id])->eager->request();
+    
+    $resource->get->object($user)
+      ->withQuery(['id' => $id])
+      ->withAnnotate(array(new Log, new Validate))
+      ->page(1)->per(10)
+      ->eager->request();
 リソース側
     class User implementes ResourceObject
 　　 {
