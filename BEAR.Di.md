@@ -1,4 +1,4 @@
-**※このページで検討したBEAR.DiはRay.Diとして実装されました。詳しくはGoogle Codeのwiki [RayPHP](http://code.google.com/p/rayphp/) をご覧下さい。**
+**※このページで検討したBEAR.DiはRay.Diとして実装されました。Google Codeのwiki [RayPHP](http://code.google.com/p/rayphp/) をご覧下さい。**
 
 
 ***
