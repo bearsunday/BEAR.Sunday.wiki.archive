@@ -1,3 +1,8 @@
+**※このページで検討したBEAR.DiはRay.Diとして実装されました。詳しくはGoogle Codeのwiki [RayPHP](http://code.google.com/p/rayphp/) をご覧下さい。**
+
+
+***
+
 
 preview:2
 note: パッケージ名はまだ未定です。仮にBEAR.Diとしています。
