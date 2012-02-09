@@ -190,12 +190,12 @@
 * zf2/*, zf1/*
 * PEAR
 * PHPUnit
-** Orbited / WebSocket
+* Orbited / WebSocket
 
-## PHP5.3+ / 5.4+
+## PHP 5.4
 * アプリケーションnamespaceでローカルサービス以外のリソースのリクエスト
-* リソースtrait
 * "buit-in" HATEOASサーバー 
+* trait DI (@Inject)
 
 ## 開発
 * TDD / GitHub / Jenkins
