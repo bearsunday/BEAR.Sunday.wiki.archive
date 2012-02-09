@@ -10,23 +10,25 @@
 * Everything is a resource.　全てはリソース
 * Agility and quality.　アジリティとクオリティ
 * REST meets CQRS. RESTとCQRSの融合
+* Object Framework (DI + AOP)
 
 ### Function / Goal
 * MVC friendly resource oriented architecture (extends HMVC) / HMVCを拡張したリソース指向
 * Multiple application resource / マルチアプリリソースの使用　
 * UA-Sniffing optimization / マルチUAの最適化
 * push / pull 双方向のリソース
-* pjax
 * CQRS  / (クエリーとコマンドでのデータソースの分離。時間ではなくメソッドトリガーのCache機構)
 * orbited / websocket (model/viewの変化が即view/modelに反映されるovserbed MVC)
-* framework as CMS
 * clean modern PHP code (SRP,SoC,LoD,OCP,Tell don't ask...) / test coverage
 * HATEOAS (Hypermedia as the Engine of Application State) optional support
+* pjax
+* framework as CMS
 
 ### Policy / Principle
 * No Overengineering / オーバーエンジニアリングの否定
 * Easy learning / 低学習コスト
 * Component connection over component itself / コンポーネントの接続に注目
+* Independency over Interdependency / 相互依存よりも独立することを好む
 * Prefer standard technology / 中立的な標準技術を好む。
 * Prefer simpleness over complexity / 簡素を好む。
 * Prefer DSL / DSLを好む。
@@ -53,12 +55,17 @@
 * メソッドの引数は少なく。基本は4つ以下。
 * タイプヒンティングは実クラスではなく、インターフェイスか抽象クラスを用いる。
 * setter/getterの抑制（値ではなくてデータ構造を隠蔽する）
-* 構造を持つスカラーデータのセットはDTOクラスにまとめる((int)x, (int)y => class Position{public $x; public $y})
+* 構造を持つスカラーデータのセットはDTOにまとめる((int)x, (int)y => class Position{public $x; public $y})
 * DTOとオブジェクトの明確な区別
 * DTOはpublicプロパティを持ちLoD違反を避ける。
 * プロパティ固定名にフレームワークの機能を持たせない。
 * メソッド固定名にフレームワークの機能を持たせない。
 * グローバルdefineを持たない。
+* include_pathの依存を持たない
+* アプリケーション、フレームワーク共にメソッド内でのインスタンス生成
+* フレームワークが持つグローバルな設定ファイル、レジストリはない
+* 依存は全てモジュールでバインドする
+* 実行モードを持たない。エントリーポイントでdev/prodを切り替える (クラス内でif ($debug)がない。必要ならクラスを入れ替える）
 
 ### as a framework
 
@@ -92,6 +99,7 @@
 * アノテーション情報はすべてキャッシュ
 * アノテーションの動的定義
 * アプリケーションアノテーション
+* Doctrine\Common\Annotationsを使用
 
 ### リソース(ROA)
 
@@ -119,7 +127,7 @@
 * リソースはcode, header, bodyの他にdocument(or representation?)=表現のプロパティを保持する(?=viewリソースとコンフリクト)
 
 ### ページリソース
-* onInitの代わりにonRead
+* onInitの代わりにonGet - Side Effect Free
 * フォームはHTTP-METHOD-OVERIDEを使いGET/POST/PUT/DELETEと全てのHTTPメソッドを使用
 * onActionの代わりにonGet/onPost/onPutに。マルチフォームではonPostEntryなど
 * リンクメソッドを持つ
@@ -131,7 +139,7 @@
 * FormはPEAR::HTML_QuickForm2またはzf2\FormまたはAura.Formデフォルト
 * 値の操作ではなくリソースの関係性を記述する
 
-### roリソース
+### Apiリソース
 * pullリソース強化
 * パラメータプロバイダ
 * notify
@@ -150,9 +158,9 @@
 * Smarty3デフォルト
 
 ### アノテーション
-* コールクラス使用
-* 原則どのクラスでも利用可能に
 * アプリケーション作成のアノテーション
+* アノテーションクラス
+* Doctrine/Commons/Annotations使用
 
 ### CQRS (Command Query Responsibility Segregation)
 * readと非readの関心の相違によるレポジトリの分離
@@ -167,18 +175,22 @@
 * CQRSで原則クエリーはキャッシュを読むのみ
 
 ## 規約・規則
-* コーディング規約はPEAR/Zendを踏襲。ただしprivate/protectedでアンダースコアはprefixしない。
-* ファイル配置や命名規則はzf2準拠
+* コーディング規約はPEAR/Zend/Solar/Auraを踏襲。ただしprivate/protectedでアンダースコアはprefixしない。
+* ファイル配置や命名規則はAura/zf2準拠
 
 ## 採用ライブラリ
-* Doctorine DBAL ? zf2.db ? Aura.sql ?
-* Smarty3 ? PHPTAL ?
-* Orbited / WebSocket
-* Aura.*
-* zf2/*
-* zf1/*
+* Doctrine.Common (Annotatin, Cache)
+* Doctrine.DBAL / ( zf2.db, Aura.sql0) 
+* Smarty3 ? Twig ? Haanga ? Mustache ?
+* Aura.* (Aura.Router, Aura.Web)
+* Symfony.Component (Loader)
+* Log - Guzzle interface(Monolog, Zend_Log)
+* Guzzle
+* Cache - Guzzle interface(Doctrine.Common.Cache, Zend_Cache)
+* zf2/*, zf1/*
 * PEAR
 * PHPUnit
+** Orbited / WebSocket
 
 ## PHP5.3+ / 5.4+
 * アプリケーションnamespaceでローカルサービス以外のリソースのリクエスト
