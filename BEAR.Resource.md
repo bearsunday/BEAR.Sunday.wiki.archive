@@ -1,5 +1,7 @@
 # BEAR.Resource
 
+**※このページで検討したBEAR.Resourceは実装されました。[Google Codeのwiki](http://code.google.com/p/bearsunday/wiki/manual?tm=6) にマニュアルを乗せる予定です。
+
 ## 概要
 
 BEAR.Resourceはモデルやコントローラー、ビュー等対象をリソースとして捉えそれぞれの接続にROAを適用したコンポーネント接続のためのサービスレーヤーフレームワークです。
