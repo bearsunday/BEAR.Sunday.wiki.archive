@@ -1,6 +1,6 @@
 # Hello World Prototype
 
-**※ごく初期に検討したBEAR.Sundayの設計です。今この資料は使われていません**
+**※ごく初期に検討したBEAR.Sundayの設計です。現在無効です**
 
 
 ## Overview
