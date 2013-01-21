@@ -1,5 +1,8 @@
 # Hello World Prototype
 
+**※ごく初期に検討したBEAR.Sundayの設計です。今この資料は使われていません**
+
+
 ## Overview
 
 Hello World Prototypeとは全体構成の理解に役立てるための最小構成のアプリです。
