@@ -1,6 +1,6 @@
 # BEAR.Resource
 
-**※このページで検討したBEAR.Resourceは実装されました。[Google Codeのwiki](http://code.google.com/p/bearsunday/wiki/manual?tm=6) にマニュアルを掲載する予定です。**
+**※このページで検討したBEAR.Resourceは実装されました。**
 
 ## 概要
 
